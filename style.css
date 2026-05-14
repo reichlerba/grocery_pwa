@@ -1,0 +1,293 @@
+/*
+    Written by Benjamin Reichler
+    Layout, buttons, categories styling 
+*/
+
+:root {
+    --background-color: white;
+    --text-color: black;
+
+    --quick-item-color: rgba(247,245,170,0.5);
+    --accent-color: #af9d4c;
+    --accent-text: white;
+    --deletionX-color: black;
+
+    --selected-cat-button-in-mod: #4caf50;
+    --selected-cat-button-text: white;
+    --cat1-color: #ffff4f; /* Productos */
+    --cat2-color: #fff07e; /* Pan */
+    --cat3-color: #ffa63b;; /* Ingredientes */
+    --cat4-color: #fa5c5c; /* Carne */
+    --cat5-color: #ff6bb3; /* Lácteos */
+    --cat6-color: #5fcefa; /* Congelados */
+    --catOtro-color: #3efa54; /* Other */
+}
+
+.dark-theme {
+    --background-color: black;
+    --text-color: white;
+
+    --quick-item-color: rgba(79, 33, 132, 0.5);
+    --accent-color: #0b550d;
+    --accent-text: white;
+    --deletionX-color: white;
+
+    --selected-cat-button-in-mod: #619419;
+    --selected-cat-button-text: white;
+    --cat1-color: #02343d; /* Productos */
+    --cat2-color: #02343d; /* Pan */
+    --cat3-color: #02343d;; /* Ingredientes */
+    --cat4-color: #02343d; /* Carne */
+    --cat5-color: #3d0227; /* Lácteos */
+    --cat6-color: #02343d; /* Congelados */
+    --catOtro-color: #02343d; /* Other */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: var(--background-color);
+    color: var(--text-color);
+    min-height: 100vh;
+}
+
+#quick-add-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 6px;
+
+    padding: 14px;
+    background: rgba(255,255,255,0); /* bar behind quick adds is completely transparent, so we just see background color */
+
+    overflow-x: auto;
+}
+
+#quick-add-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.quick-item {
+    flex: 0 0 auto;
+
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: none;
+
+    background: var(--quick-item-color);
+    color: var(--text-color);
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+#main-list {
+    margin-top: 54px;
+    padding: 0;
+}
+
+.list-item {
+    display: flex;
+    align-items: center;
+    /*gap: 10px;
+    margin: 6px 0;*/
+
+    padding: 12px;
+    border-radius: 0;
+
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.delete-button {
+    color: var(--deletionX-color);
+    background: transparent;
+    border: transparent;
+}
+
+#for-later-list {
+    padding: 10px;
+    opacity: 0.7;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.modal-buttons button {
+    border: none;
+    border-radius: 12px;
+
+    padding: 10px 16px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.15s;
+
+    background: var(--accent-color);
+    color: var(--accent-text);
+}
+.modal-buttons button:active {
+    transform: scale(0.95);
+}
+
+#add-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+
+    background: var(--accent-color);
+    color: var(--accent-text);
+
+    border: none;
+    border-radius: 50%;
+}
+
+#theme-toggle {
+    position: fixed;
+    bottom: 32.5px;
+    right: 75px;
+    width: 25px;
+    height: 25px;
+    font-size: 12px;
+
+    background: var(--accent-color);
+    color: var(--accent-text);
+
+    border: none;
+    border-radius: 50%;
+}
+
+#category-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.category-button {
+    border: none;
+    padding: 10px 14px;
+
+    border-radius: 20px;
+
+    background: var(--background-color);
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.category-button.selected {
+    background: var(--selected-cat-button-in-mod) !important; /* prioritize selected category button color over manual .category-button[data-category=... below */
+    color: var(--selected-cat-button-text);
+    /* 
+        optionally, to allow for custom selected button coloring according to each individual category,
+        add specific selected button rules below, ex:
+        .category-button.selected[data-category="Productos"] {
+            background: var(--selected-cat1-color);
+            color: var(--selected-cat1-text);
+        }
+    */
+}
+
+#modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4); /* dim background of modal */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#item-input {
+    background: var(--background-color);
+    color: var(--text-color);
+
+    border: 1px solid var(--accent-color);
+
+    border-radius: 12px;
+
+    padding: 12px;
+
+    font-size: 16px;
+
+    outline: none;
+}
+#item-input::placeholder {
+    color: var(--accent-color);
+}
+#item-input:focus { /* adds a glow to the item-input box upon selection (focus) */
+    border-color: var(--accent-color);
+
+    box-shadow:
+        0 0 0 2px var(--accent-color);
+}
+
+#quick-checkbox {
+    accent-color: var(--accent-color);
+}
+/* correct alignment with <label> */
+label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-color);
+}
+
+#add-modal {
+    width: 80%;
+    max-width: 350px;
+
+    background: var(--background-color);
+    padding: 20px;
+
+    border-radius: 16px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+/* Category colors */
+.Productos {
+    background: var(--cat1-color);
+}
+.category-button[data-category="Productos"] {
+    background: var(--cat1-color);
+}
+.Pan {
+    background: var(--cat2-color);
+}
+
+.Ingredientes {
+    background: var(--cat3-color);
+}
+
+.Carne {
+    background: var(--cat4-color);
+}
+
+.Lácteos {
+    background: var(--cat5-color);
+}
+
+.Congelados {
+    background: var(--cat6-color);
+}
+
+.Otro {
+    background: var(--catOtro-color);
+}
+

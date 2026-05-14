@@ -1,0 +1,94 @@
+<!--
+    Written by Benjamin Reichler
+    Defines UI structure for buttons, list, etc. 
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Groceries</title>
+</head>
+<body>
+    <div id="quick-add-bar"></div>
+
+    <div id="main-list"></div>
+
+    <div id="for-later-list"></div>
+
+    <button id="theme-toggle">☾</button>
+    <button id="add-button">+</button>
+
+    <div id="modal-overlay" class="hidden">
+
+        <div id="add-modal">
+            <h2>Add to list</h2>
+
+            <input type="text" id="item-input" placeholder="Item name">
+
+            <!-- select (drop down menu) replaced with buttons
+            <select id="category-select">
+                <option value="Productos">Productos</option>
+                <option value="Pan">Pan</option>
+                <option value="Ingredientes">Ingredientes</option>
+                <option value="Carne">Carne</option>
+                <option value="Lácteos">Lácteos</option>
+                <option value="Congelados">Congelados</option>
+                <option value="Otro">Otro</option>
+            </select>
+            -->
+            <div id="category-selector">
+                <button class="category-button selected"
+                    data-category="Productos">
+                    Productos
+                </button>
+
+                <button class="category-button"
+                    data-category="Pan">
+                    Pan
+                </button>
+
+                <button class="category-button"
+                    data-category="Ingredientes">
+                    Ingredientes
+                </button>
+
+                <button class="category-button"
+                    data-category="Carne">
+                    Carne
+                </button>
+
+                <button class="category-button"
+                    data-category="Lácteos">
+                    Lácteos
+                </button>
+
+                <button class="category-button"
+                    data-category="Congelados">
+                    Congelados
+                </button>
+
+                <button class="category-button"
+                    data-category="Otro">
+                    Otro
+                </button>
+            </div>
+
+            <label>
+                <input type="checkbox" id="quick-checkbox">
+                Add to quick items
+            </label>
+
+            <div class="modal-buttons">
+                <button id="submit-itemAdd">Add</button>
+                <button id="cancel-itemAdd">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+
+    <link rel="manifest" href="manifest.json">
+    <script src="app.js"></script>
+</body>
+</html>
