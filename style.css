@@ -14,7 +14,7 @@
 
     --selected-cat-button-in-mod: #4caf50;
     --selected-cat-button-text: white;
-    --cat1-color: #ffff4f; /* Productos */
+    --cat1-color: #ffff4f; /* Frescos */
     --cat2-color: #fff07e; /* Pan */
     --cat3-color: #ffa63b;; /* Ingredientes */
     --cat4-color: #fa5c5c; /* Carne */
@@ -36,7 +36,7 @@
 
     --selected-cat-button-in-mod: #619419;
     --selected-cat-button-text: white;
-    --cat1-color: #02343d; /* Productos */
+    --cat1-color: #02343d; /* Frescos */
     --cat2-color: #02343d; /* Pan */
     --cat3-color: #02343d;; /* Ingredientes */
     --cat4-color: #02343d; /* Carne */
@@ -192,7 +192,7 @@ body {
     /* 
         optionally, to allow for custom selected button coloring according to each individual category,
         add specific selected button rules below, ex:
-        .category-button.selected[data-category="Productos"] {
+        .category-button.selected[data-category="Frescos"] {
             background: var(--selected-cat1-color);
             color: var(--selected-cat1-text);
         }
@@ -267,10 +267,10 @@ label {
 
 
 /* Category colors */
-.Productos {
+.Frescos {
     background: var(--cat1-color);
 }
-.category-button[data-category="Productos"] {
+.category-button[data-category="Frescos"] {
     background: var(--cat1-color);
 }
 .Pan {

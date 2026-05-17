@@ -2,7 +2,7 @@
 //  Implements main logic: adding/deleting items, connect UI and storage
 
 const cats = Object.freeze({
-    PRODUCTOS: "Productos",
+    FRESCOS: "Frescos",
     PAN: "Pan",
     INGREDIENTES: "Ingredientes",
     CARNE: "Carne",
@@ -25,7 +25,7 @@ const categoryButtons = document.querySelectorAll(".category-button");
 
 const pixelsToSwipeToRemoveItem = 170;
 const millisecondsToHoldQuickAddToEdit = 750;
-let selectedCategory = "Productos";
+let selectedCategory = "Frescos";
 
 // localStorage operations
 function saveData() {
