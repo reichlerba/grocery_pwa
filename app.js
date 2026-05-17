@@ -11,19 +11,6 @@ const cats = Object.freeze({
     OTRO: "Otro"
 });
 
-let quickAdds = [
-    { name: "Leche", category: cats.LACTEOS }, 
-    { name: "Yogur", category: cats.LACTEOS }, 
-    { name: "Huevos", category: cats.LACTEOS },
-    { name: "Manzanas", category: cats.PRODUCTOS},
-    { name: "Platanos", category: cats.PRODUCTOS},
-    { name: "Naranjas", category: cats.PRODUCTOS},
-    { name: "Tortillas", category: cats.PAN},
-    { name: "Verduras", category: cats.CONGELADOS},
-    { name: "Pollo", category: cats.CARNE},
-    { name: "Azúcar", category: cats.INGREDIENTES},
-    { name: "Desodorante", category: cats.OTRO}
-]
 let allItems = [];
 
 const mainList = document.getElementById("main-list");
@@ -42,21 +29,22 @@ let selectedCategory = "Productos";
 // localStorage operations
 function saveData() {
     localStorage.setItem("allItems", JSON.stringify(allItems));
-    localStorage.setItem("quickAdds", JSON.stringify(quickAdds));
 }
 
 function loadData() {
     const savedItems = localStorage.getItem("allItems");
-    const savedQuicks = localStorage.getItem("quickAdds");
-
     if(savedItems) {
-        allItems = JSON.parse(savedItems);
-    }
-    if(savedQuicks) {
-        quickAdds = JSON.parse(savedQuicks);
+        allItems = JSON.parse(savedItems).map(item => ({
+            // default categories, incase an item loaded is missing a field
+            category: "Otro",
+            location: "none", // can be "none", "main", or "later"
+            quickItem: false,
+            ...item
+        }));
     }
 }
 loadData();
+clearUnusedItemsFromAllItems();
 
 if("serviceWorker" in navigator) {
     navigator.serviceWorker.register("service-worker.js");
@@ -70,26 +58,32 @@ if(localStorage.getItem("darkMode") === "true") {
 
 function renderQuickBar() {
     quickBar.innerHTML = "";
+    // get quickAdds from allItems
+    const quickAdds = allItems.filter(item => item.quickItem);
+
     quickAdds.forEach(item => {
         const btn = document.createElement("button");
         btn.className = "quick-item";
         btn.textContent = item.name;
 
-        btn.addEventListener("click", () => {
-            addToMainList(item.name, item.category);
-        });
-        // hold to delete
+        let wasLongPress = false;
         let holdTimer;
-        btn.addEventListener("touchstart", () => {
+        btn.addEventListener("pointerdown", () => {
+            wasLongPress = false;
             holdTimer = setTimeout(() => {
+                wasLongPress = true;
                 removeFromQuickAdd(item.name);
-            }, millisecondsToHoldQuickAddToEdit); 
+            }, millisecondsToHoldQuickAddToEdit);
         });
-        // cancel if early release/move (such as swiping through options)
-        btn.addEventListener("touchend", () => {
+
+        btn.addEventListener("pointerup", () => {
             clearTimeout(holdTimer);
+            if(!wasLongPress) {
+                addToMainList(item.name, item.category);
+            }
         });
-        btn.addEventListener("touchmove", () => {
+
+        btn.addEventListener("pointermove", () => {
             clearTimeout(holdTimer);
         });
 
@@ -99,62 +93,92 @@ function renderQuickBar() {
 renderQuickBar();
 
 function removeFromQuickAdd(itemName) {
-    quickAdds = quickAdds.filter(
-        item => item.name !== itemName
-    );
+    const itemToRemove = allItems.find(i => i.name === itemName);
+    if(itemToRemove) {
+        itemToRemove.quickItem = false;
+    }
     saveData();
     renderQuickBar();
 }
 
 function addNewQuickAdd(name, category) {
-    if(quickAdds.some(item => item.name.toLowerCase() === name.toLowerCase())) return;
-    quickAdds.push({ name: name, category});
+    name = name.trim();
+    const existing = allItems.find(item => item.name.toLowerCase() === name.toLowerCase());
+    if(existing) {
+        existing.quickItem = true;
+        saveData();
+        renderQuickBar();
+        return;
+    }
+
+    // item not in allItems yet, need to create it
+    allItems.push({name, category, location: "none", quickItem: true});
     saveData();
     renderQuickBar();
 }
 
 function addToMainList(itemName, category) {
     itemName = itemName.trim();
-    if(allItems.some(item => item.name === itemName)) {
-        return; // already in list
+    nameLower = itemName.toLowerCase();
+    const existing = allItems.find(item => item.name && item.name.toLowerCase() === nameLower);
+    if(existing) {
+        existing.location = "main";
+    } else {
+        allItems.push({
+            name: itemName,
+            category: category,
+            location: "main",
+            quickItem: false
+        });
     }
-
-    allItems.push({
-        name: itemName,
-        category: category
-    });
-
+    saveData();
     renderList();
+}
+
+// prevents localStorage from getting too large
+// removes each item from allItems with a "none" location and isn't a quickItem
+function clearUnusedItemsFromAllItems() {
+    for(let i = allItems.length - 1; i >= 0; i--) {
+        curr = allItems[i];
+        if(curr.location === "none" && !curr.quickItem) {
+            deleteFromAllItems(curr.name);
+        }
+    }
+}
+function deleteFromAllItems(itemName) {
+    allItems = allItems.filter(item => item.name !== itemName);
     saveData();
 }
 
 function removeFromMainList(itemName) {
-    allItems = allItems.filter(
-        item => item.name !== itemName
-    );
+    itemName = itemName.trim();
+    const itemToRemove = allItems.find(i => i.name.toLowerCase() === itemName.toLowerCase());
+    if(itemToRemove) {
+        itemToRemove.location = "none";
+    }
     saveData();
     renderList();
 }
 
 function renderList() {
+    // mainList
     mainList.innerHTML = "";
 
     Object.values(cats).forEach(category => {
-        const selectionItems = allItems.filter(item => item.category === category);
+        const selectionItems = allItems.filter(item => item.category === category && item.location === "main");
 
         if(selectionItems.length === 0) {
-            // nonde in this category
+            // none in this category
             return;
         }
 
-        // food category header, unneeded
+        // category header, unneeded
         // const header = document.createElement("h3");
         // header.textContent = category;
         // mainList.appendChild(header);
 
-        // food items in allItems of this category
+        // items in allItems of this category
         selectionItems.forEach(item => {
-            // item name
             const div = document.createElement("div");
             div.className = "list-item";
             div.classList.add(item.category);
@@ -199,6 +223,9 @@ function renderList() {
             mainList.appendChild(div);
         });
     });
+
+    // laterList
+
 }
 renderList();
 
@@ -207,12 +234,6 @@ function closeModal() {
     document.getElementById("item-input").value = "";
     document.getElementById("quick-checkbox").checked = false;
 }
-
-document.querySelectorAll(".quick-item").forEach(btn => {
-    btn.addEventListener("click", () => {
-        addToMainList(btn.textContent);
-    });
-});
 
 addButton.addEventListener("click", () => {
     modalOverlay.classList.remove("hidden");
