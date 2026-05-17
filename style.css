@@ -20,32 +20,32 @@
     --catOtro-color: #c3fec7; /* Other */
 
     --later-item-color: #e09455;
+
+    --theme-font: 'Trebuchet MS';
 }
 
 .dark-theme {
     --background-color: black;
-    --text-color: rgb(180, 184, 184);
+    --text-color: rgb(217, 225, 225);
 
-    --quick-item-color: rgba(35, 35, 36, 0.85);
+    --quick-item-color: rgba(31, 8, 8, 0.85);
     --accent-color: #480404;
     --accent-text: var(--text-color);
     --deletionX-color: var(--text-color);
 
-    --selected-cat-button-in-mod: #619419;
-    --selected-cat-button-text: white;
-    --cat1-color: #02343d; /* Frescos */
-    --cat2-color: #02343d; /* Pan */
-    --cat3-color: #02343d;; /* Ingredientes */
-    --cat4-color: #02343d; /* Carne */
-    --cat5-color: #3d0227; /* Lácteos */
-    --cat6-color: #02343d; /* Congelados */
-    --catOtro-color: #02343d; /* Other */
+    --selected-cat-button-in-mod: #a354e8;
+    --selected-cat-button-text: black;
+    --cat1-color: #410000; /* Frescos */
+    --cat2-color: #2f1c00; /* Pan */
+    --cat3-color: #320722;; /* Ingredientes */
+    --cat4-color: #210331; /* Carne */
+    --cat5-color: #08012c; /* Lácteos */
+    --cat6-color: #031f2e; /* Congelados */
+    --catOtro-color: #001c09; /* Other */
 
-    --later-item-color: #864809;
-}
+    --later-item-color: #130500;
 
-* {
-    font-family: 'Lucida Sans';
+    --theme-font: 'Trebuchet MS';
 }
 
 body {
@@ -54,6 +54,7 @@ body {
     background: var(--background-color);
     color: var(--text-color);
     min-height: 100vh;
+    font-family: var(--theme-font);
 }
 
 #quick-add-bar {
@@ -88,6 +89,8 @@ body {
     color: var(--text-color);
     font-size: 14px;
     flex-shrink: 0;
+    
+    font-family: var(--theme-font);
 }
 
 #main-list {
@@ -134,6 +137,7 @@ body {
 
     background: var(--accent-color);
     color: var(--accent-text);
+    font-family: var(--theme-font);
 }
 .modal-buttons button:active {
     transform: scale(0.95);
@@ -184,6 +188,8 @@ body {
     background: var(--background-color);
     color: var(--text-color);
     cursor: pointer;
+    
+    font-family: var(--theme-font);
 }
 
 .category-button.selected {
@@ -220,6 +226,7 @@ body {
     padding: 12px;
 
     font-size: 16px;
+    font-family: var(--theme-font);
 
     outline: none;
 }

@@ -1,6 +1,6 @@
 //  PWA apps cache files on first load, from the Service Worker, and later only serves cached version
 
-const CACHE_NAME = "grocery-app-3.3";
+const CACHE_NAME = "grocery-app-3.4";
 
 const FILES = [
     "./",
