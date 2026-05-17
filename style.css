@@ -1,28 +1,25 @@
-/*
-    Written by Benjamin Reichler
-    Layout, buttons, categories styling 
-*/
+/* Written by Benjamin Reichler */
 
 :root {
-    --background-color: white;
+    --background-color: #f9ecc4;
     --text-color: black;
 
-    --quick-item-color: rgba(247,245,170,0.5);
-    --accent-color: #af9d4c;
+    --quick-item-color: rgba(254, 202, 222, 0.85);
+    --accent-color: #be8229;
     --accent-text: white;
     --deletionX-color: black;
 
-    --selected-cat-button-in-mod: #4caf50;
+    --selected-cat-button-in-mod: #a25604 /*#003902*/;
     --selected-cat-button-text: white;
-    --cat1-color: #ffff4f; /* Frescos */
-    --cat2-color: #fff07e; /* Pan */
-    --cat3-color: #ffa63b;; /* Ingredientes */
-    --cat4-color: #fa5c5c; /* Carne */
-    --cat5-color: #ff6bb3; /* Lácteos */
-    --cat6-color: #5fcefa; /* Congelados */
-    --catOtro-color: #3efa54; /* Other */
+    --cat1-color: #fffd91; /* Frescos */
+    --cat2-color: #efe6a0; /* Pan */
+    --cat3-color: #ffc6a3;; /* Ingredientes */
+    --cat4-color: #ffdbe3; /* Carne */
+    --cat5-color: #fdfbd4; /* Lácteos */
+    --cat6-color: #bbfafe; /* Congelados */
+    --catOtro-color: #c3fec7; /* Other */
 
-    --later-item-color: #d9ae83;
+    --later-item-color: #e09455;
 }
 
 .dark-theme {
@@ -47,10 +44,13 @@
     --later-item-color: #864809;
 }
 
+* {
+    font-family: 'Lucida Sans';
+}
+
 body {
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
     background: var(--background-color);
     color: var(--text-color);
     min-height: 100vh;
@@ -273,30 +273,48 @@ label {
 .category-button[data-category="Frescos"] {
     background: var(--cat1-color);
 }
+
 .Pan {
+    background: var(--cat2-color);
+}
+.category-button[data-category="Pan"] {
     background: var(--cat2-color);
 }
 
 .Ingredientes {
     background: var(--cat3-color);
 }
+.category-button[data-category="Ingredientes"] {
+    background: var(--cat3-color);
+}
 
 .Carne {
+    background: var(--cat4-color);
+}
+.category-button[data-category="Carne"] {
     background: var(--cat4-color);
 }
 
 .Lácteos {
     background: var(--cat5-color);
 }
+.category-button[data-category="Lácteos"] {
+    background: var(--cat5-color);
+}
 
 .Congelados {
+    background: var(--cat6-color);
+}
+.category-button[data-category="Congelados"] {
     background: var(--cat6-color);
 }
 
 .Otro {
     background: var(--catOtro-color);
 }
-
+.category-button[data-category="Otro"] {
+    background: var(--catOtro-color);
+}
 
 .later-item {
     background: var(--later-item-color);
