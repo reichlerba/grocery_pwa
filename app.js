@@ -14,6 +14,7 @@ const cats = Object.freeze({
 let allItems = [];
 
 const mainList = document.getElementById("main-list");
+const laterList = document.getElementById("for-later-list");
 const themeButton = document.getElementById("theme-toggle");
 const addButton = document.getElementById("add-button");
 const quickBar = document.getElementById("quick-add-bar");
@@ -135,6 +136,24 @@ function addToMainList(itemName, category) {
     renderList();
 }
 
+function addToForLater(itemName, category) {
+    itemName = itemName.trim();
+    nameLower = itemName.toLowerCase();
+    const existing = allItems.find(item => item.name && item.name.toLowerCase() === nameLower);
+    if(existing) {
+        existing.location = "later";
+    } else {
+        allItems.push({
+            name: itemName,
+            category: category,
+            location: "later",
+            quickItem: false
+        });
+    }
+    saveData();
+    renderList();
+}
+
 // prevents localStorage from getting too large
 // removes each item from allItems with a "none" location and isn't a quickItem
 function clearUnusedItemsFromAllItems() {
@@ -160,6 +179,11 @@ function removeFromMainList(itemName) {
     renderList();
 }
 
+function removeFromLater(itemName) { 
+    // just needs to change location to "none", which is the same as removeFromMainList:
+    removeFromMainList(itemName);
+}
+
 function renderList() {
     // mainList
     mainList.innerHTML = "";
@@ -171,12 +195,6 @@ function renderList() {
             // none in this category
             return;
         }
-
-        // category header, unneeded
-        // const header = document.createElement("h3");
-        // header.textContent = category;
-        // mainList.appendChild(header);
-
         // items in allItems of this category
         selectionItems.forEach(item => {
             const div = document.createElement("div");
@@ -225,7 +243,69 @@ function renderList() {
     });
 
     // laterList
+    laterList.innerHTML = "";
+    Object.values(cats).forEach(category => {
+        const selectionItems = allItems.filter(item => item.category === category && item.location === "later");
 
+        if(selectionItems.length === 0) {
+            // none in this category
+            return;
+        }
+
+        if(laterList.children.length === 0) {
+            // selectionItems isn't empty but laterList is so far
+            // i.e. we are about to add the first element to laterList
+            // add header
+            const header = document.createElement("h3");
+            header.textContent = "Luego";
+            header.style.textAlign = "center";
+            laterList.appendChild(header);
+        }
+
+        for(const item of selectionItems) {
+            const div = document.createElement("div");
+            div.className = "list-item";
+            div.classList.add("later-item");
+
+            // listen for swipe removal
+            let swipeStartX = 0;
+            div.addEventListener("touchstart", (e) => {
+                swipeStartX = e.touches[0].clientX;
+            });
+            div.addEventListener("touchend", (e) => {
+                const swipeEndX = e.changedTouches[0].clientX;
+                const swipeDistance = swipeEndX - swipeStartX;
+                // use Math.abs if swiping left and right should have same effect
+                if(Math.abs(swipeDistance) > pixelsToSwipeToRemoveItem) {
+                    // added deletion animation:
+                    div.style.transform = `translateX(${swipeDistance > 0 ? "100%" : "-100%"})`;
+
+                    div.style.opacity = "0";
+
+                    setTimeout(() => {
+                        removeFromLater(item.name);
+                    }, 200);
+
+                }
+            });
+
+            // X button
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "✕";
+            deleteButton.className = "delete-button";
+            deleteButton.addEventListener("click", () => {
+                removeFromLater(item.name);
+            });
+
+            // put together and display
+            const textSpan = document.createElement("span");
+            textSpan.textContent = item.name;
+            div.appendChild(deleteButton);
+            div.appendChild(textSpan);
+            laterList.appendChild(div);
+
+        }
+    });
 }
 renderList();
 
@@ -248,9 +328,15 @@ submitAdd.addEventListener("click", () => {
 
     const category = selectedCategory; // document.getElementById("category-select").value; this was used when the html used the <select> drop down menu to choose category
 
+    const isForLater = document.getElementById("for-later-checkbox").checked;
     const addToQuick = document.getElementById("quick-checkbox").checked;
 
-    addToMainList(itemName, category);
+    if(isForLater) {
+        addToForLater(itemName, category);
+    } else {
+        addToMainList(itemName, category);
+    }
+    
     if(addToQuick) {
         addNewQuickAdd(itemName, category);
     }

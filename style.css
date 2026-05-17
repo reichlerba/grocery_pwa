@@ -21,6 +21,8 @@
     --cat5-color: #ff6bb3; /* Lácteos */
     --cat6-color: #5fcefa; /* Congelados */
     --catOtro-color: #3efa54; /* Other */
+
+    --later-item-color: #d9ae83;
 }
 
 .dark-theme {
@@ -41,6 +43,8 @@
     --cat5-color: #3d0227; /* Lácteos */
     --cat6-color: #02343d; /* Congelados */
     --catOtro-color: #02343d; /* Other */
+
+    --later-item-color: #864809;
 }
 
 body {
@@ -111,8 +115,7 @@ body {
 }
 
 #for-later-list {
-    padding: 10px;
-    opacity: 0.7;
+    padding: 0;
 }
 
 .modal-buttons {
@@ -230,6 +233,9 @@ body {
         0 0 0 2px var(--accent-color);
 }
 
+#for-later-checkbox {
+    accent-color: var(--accent-color);
+}
 #quick-checkbox {
     accent-color: var(--accent-color);
 }
@@ -289,5 +295,10 @@ label {
 
 .Otro {
     background: var(--catOtro-color);
+}
+
+
+.later-item {
+    background: var(--later-item-color);
 }
 
