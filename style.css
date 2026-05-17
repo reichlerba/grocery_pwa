@@ -24,12 +24,12 @@
 
 .dark-theme {
     --background-color: black;
-    --text-color: white;
+    --text-color: rgb(180, 184, 184);
 
-    --quick-item-color: rgba(79, 33, 132, 0.5);
-    --accent-color: #0b550d;
-    --accent-text: white;
-    --deletionX-color: white;
+    --quick-item-color: rgba(35, 35, 36, 0.85);
+    --accent-color: #480404;
+    --accent-text: var(--text-color);
+    --deletionX-color: var(--text-color);
 
     --selected-cat-button-in-mod: #619419;
     --selected-cat-button-text: white;
@@ -78,6 +78,7 @@ body {
 
 .quick-item {
     flex: 0 0 auto;
+    align-items: center;
 
     padding: 8px 12px;
     border-radius: 20px;
@@ -97,8 +98,6 @@ body {
 .list-item {
     display: flex;
     align-items: center;
-    /*gap: 10px;
-    margin: 6px 0;*/
 
     padding: 12px;
     border-radius: 0;
@@ -112,6 +111,7 @@ body {
     color: var(--deletionX-color);
     background: transparent;
     border: transparent;
+    align-items: center;
 }
 
 #for-later-list {
