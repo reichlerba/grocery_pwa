@@ -21,7 +21,7 @@
 
     --later-item-color: #e09455;
 
-    --theme-font: 'Trebuchet MS';
+    --theme-font: 'Nunito', sans-serif; /*'Trebuchet MS'; */
 }
 
 .dark-theme {
@@ -45,7 +45,7 @@
 
     --later-item-color: #130500;
 
-    --theme-font: 'Trebuchet MS';
+    --theme-font: 'Nunito', sans-serif;
 }
 
 body {
