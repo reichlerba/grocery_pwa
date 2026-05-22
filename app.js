@@ -209,12 +209,9 @@ function renderList() {
             div.addEventListener("touchend", (e) => {
                 const swipeEndX = e.changedTouches[0].clientX;
                 const swipeDistance = swipeEndX - swipeStartX;
-                // use Math.abs if swiping left and right should have same effect
-                if(Math.abs(swipeDistance) > pixelsToSwipeToRemoveItem) {
-                    // removeFromMainList(item.name);
-
+                if(swipeDistance > pixelsToSwipeToRemoveItem) {
                     // added deletion animation:
-                    div.style.transform = `translateX(${swipeDistance > 0 ? "100%" : "-100%"})`;
+                    div.style.transform = `translateX(${"100%"})`;
 
                     div.style.opacity = "0";
 
@@ -222,6 +219,14 @@ function renderList() {
                         removeFromMainList(item.name);
                     }, 200);
 
+                } else if(swipeDistance < -1 * pixelsToSwipeToRemoveItem) {
+                    div.style.transform = `translateX(${"-100%"})`;
+
+                    div.style.opacity = "0";
+
+                    setTimeout(() => {
+                        addToForLater(item.name, category);
+                    }, 200);
                 }
             });
 
@@ -275,17 +280,24 @@ function renderList() {
             div.addEventListener("touchend", (e) => {
                 const swipeEndX = e.changedTouches[0].clientX;
                 const swipeDistance = swipeEndX - swipeStartX;
-                // use Math.abs if swiping left and right should have same effect
-                if(Math.abs(swipeDistance) > pixelsToSwipeToRemoveItem) {
+                if(swipeDistance > pixelsToSwipeToRemoveItem) {
                     // added deletion animation:
-                    div.style.transform = `translateX(${swipeDistance > 0 ? "100%" : "-100%"})`;
+                    div.style.transform = `translateX(${"100%"})`;
 
                     div.style.opacity = "0";
 
                     setTimeout(() => {
-                        removeFromLater(item.name);
+                        removeFromMainList(item.name);
                     }, 200);
 
+                } else if(swipeDistance < -1 * pixelsToSwipeToRemoveItem) {
+                    div.style.transform = `translateX(${"-100%"})`;
+
+                    div.style.opacity = "0";
+
+                    setTimeout(() => {
+                        addToMainList(item.name, category);
+                    }, 200);
                 }
             });
 
